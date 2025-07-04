@@ -5,7 +5,7 @@ SHELL := bash
 .DELETE_ON_ERROR:
 MAKEFLAGS += --warn-undefined-variables
 MAKEFLAGS += --no-builtin-rules
-PROJECT_DIRS = python_template tests
+PROJECT_DIRS = distributed_hetero_ml tests
 
 install:
 	uv venv

@@ -30,21 +30,21 @@ jobs:
       with:
         context: .
         load: true
-        tags: python-template:ci
+        tags: distributed-hetero-ml:ci
         cache-from: type=gha
         cache-to: type=gha,mode=max
 
     - name: Run linting and formatting checks
       run: |
-        docker run --rm python-template:ci uv run make ruff
+        docker run --rm distributed-hetero-ml:ci uv run make ruff
 
     - name: Run type checking
       run: |
-        docker run --rm python-template:ci uv run make mypy
+        docker run --rm distributed-hetero-ml:ci uv run make mypy
 
     - name: Run tests with coverage
       run: |
-        docker run --rm -v ${{ github.workspace }}/.out:/python_template/.out python-template:ci uv run make coverage
+        docker run --rm -v ${{ github.workspace }}/.out:/distributed_hetero_ml/.out distributed-hetero-ml:ci uv run make coverage
 
     - name: Upload coverage reports
       uses: codecov/codecov-action@v5
@@ -73,12 +73,12 @@ jobs:
 
     - name: Build Docker image for scanning
       run: |
-        docker build -t python-template:security-scan .
+        docker build -t distributed-hetero-ml:security-scan .
 
     - name: Run Trivy vulnerability scanner
       uses: aquasecurity/trivy-action@master
       with:
-        image-ref: 'python-template:security-scan'
+        image-ref: 'distributed-hetero-ml:security-scan'
         format: 'sarif'
         output: 'trivy-results.sarif'
 

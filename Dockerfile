@@ -1,7 +1,7 @@
 FROM python:3.13-slim
 
-WORKDIR "/python_template"
-COPY . /python_template
+WORKDIR "/distributed_hetero_ml"
+COPY . /distributed_hetero_ml
 
 ENV UV_PYTHON_PREFERENCE=managed
 ENV UV_PYTHON=3.13

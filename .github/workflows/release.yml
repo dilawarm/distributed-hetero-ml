@@ -26,13 +26,13 @@ jobs:
       with:
         context: .
         load: true
-        tags: python-template:release
+        tags: distributed-hetero-ml:release
         cache-from: type=gha
 
     - name: Run full test suite
       run: |
-        docker run --rm python-template:release uv run make check
-        docker run --rm python-template:release uv run make test
+        docker run --rm distributed-hetero-ml:release uv run make check
+        docker run --rm distributed-hetero-ml:release uv run make test
 
     - name: Generate changelog
       id: changelog
@@ -70,12 +70,12 @@ jobs:
       run: |
         mkdir -p dist
         
-        docker run --rm -v $(pwd)/dist:/dist python-template:release sh -c "
+        docker run --rm -v $(pwd)/dist:/dist distributed-hetero-ml:release sh -c "
           uv export --no-hashes --no-dev > /dist/requirements.txt
           uv export --no-hashes > /dist/requirements-dev.txt
         "
         
-        docker run --rm -v $(pwd)/dist:/dist python-template:release sh -c "
+        docker run --rm -v $(pwd)/dist:/dist distributed-hetero-ml:release sh -c "
           uv build --wheel --sdist --out-dir /dist
         "
 
