@@ -2,7 +2,7 @@
 minversion = "6.0"
 addopts = "-ra -q --junitxml=.out/test_results.xml -n auto --ruff --ruff-format"
 testpaths = [
-    "python_template",
+    "distributed_hetero_ml",
     "tests",
 ]
 
@@ -11,7 +11,7 @@ requires = ["setuptools>=64", "setuptools_scm>=8"]
 build-backend = "setuptools.build_meta"
 
 [tool.setuptools]
-packages = ["python_template"]
+packages = ["distributed_hetero_ml"]
 
 [tool.setuptools_scm]
 # For smarter version schemes and other configuration options,
@@ -19,7 +19,7 @@ packages = ["python_template"]
 version_scheme = "post-release"
 
 [project]
-name = "python-template"
+name = "distributed-hetero-ml"
 dynamic = ["version"]
 description = "Project description"
 readme = "README.md"

@@ -1,4 +1,4 @@
-from python_template.main import add
+from distributed_hetero_ml.main import add
 
 
 def test_add() -> None:

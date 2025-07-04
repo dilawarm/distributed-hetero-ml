@@ -417,7 +417,7 @@ psutil = [
 ]
 
 [[package]]
-name = "python-template"
+name = "distributed-hetero-ml"
 source = { editable = "." }
 
 [package.dev-dependencies]
