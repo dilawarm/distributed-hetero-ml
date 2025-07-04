@@ -1,0 +1,23 @@
+repos:
+-   repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.12.2
+    hooks:
+    -   id: ruff
+        args: ['--fix']
+    -   id: ruff-format
+
+-   repo: local
+    hooks:
+    -   id: uv-export
+        name: uv export requirements
+        entry: uv
+        args: [export, -o, requirements.txt, --no-hashes, --no-dev, -q]
+        additional_dependencies: [uv]
+        language: python
+        pass_filenames: false
+        always_run: true
+
+-   repo: https://gitlab.com/vojko.pribudic.foss/pre-commit-update
+    rev: v0.8.0 # Insert the latest tag here
+    hooks:
+    -   id: pre-commit-update

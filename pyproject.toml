@@ -1,0 +1,49 @@
+[tool.pytest.ini_options]
+minversion = "6.0"
+addopts = "-ra -q --junitxml=.out/test_results.xml -n auto --ruff --ruff-format"
+testpaths = [
+    "python_template",
+    "tests",
+]
+
+[build-system]
+requires = ["setuptools>=64", "setuptools_scm>=8"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+packages = ["python_template"]
+
+[tool.setuptools_scm]
+# For smarter version schemes and other configuration options,
+# check out https://github.com/pypa/setuptools_scm
+version_scheme = "post-release"
+
+[project]
+name = "python-template"
+dynamic = ["version"]
+description = "Project description"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = []
+
+[tool.uv]
+native-tls = true
+link-mode = "copy"
+dev-dependencies = [
+    "genbadge[tests]>=1.1.1",
+    "mypy>=1.15.0",
+    "pre-commit>=4.1.0",
+    "pytest>=8.3.4",
+    "pytest-cov>=6.0.0",
+    "pytest-ruff>=0.4.1",
+    "pytest-runner>=6.0.1",
+    "pytest-xdist[psutil]>=3.6.1",
+    "ruff",
+    "setuptools-scm>=8.2.0",
+]
+reinstall-package = ["ruff"]
+required-version = ">=0.7.2"
+
+[tool.uv.pip]
+python-version = "3.13"
+reinstall-package = ["ruff"]

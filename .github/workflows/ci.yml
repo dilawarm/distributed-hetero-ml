@@ -1,0 +1,89 @@
+name: CI
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      security-events: write
+    strategy:
+      matrix:
+        python-version: ["3.13"]
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+
+    - name: Build Docker image
+      uses: docker/build-push-action@v6
+      with:
+        context: .
+        load: true
+        tags: python-template:ci
+        cache-from: type=gha
+        cache-to: type=gha,mode=max
+
+    - name: Run linting and formatting checks
+      run: |
+        docker run --rm python-template:ci uv run make ruff
+
+    - name: Run type checking
+      run: |
+        docker run --rm python-template:ci uv run make mypy
+
+    - name: Run tests with coverage
+      run: |
+        docker run --rm -v ${{ github.workspace }}/.out:/python_template/.out python-template:ci uv run make coverage
+
+    - name: Upload coverage reports
+      uses: codecov/codecov-action@v5
+      if: always()
+      with:
+        file: ./.out/coverage.xml
+        fail_ci_if_error: false
+
+    - name: Upload test results
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: test-results-${{ matrix.python-version }}
+        path: .out/test_results.xml
+
+  docker-security-scan:
+    runs-on: ubuntu-latest
+    needs: test
+    permissions:
+      contents: read
+      security-events: write
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Build Docker image for scanning
+      run: |
+        docker build -t python-template:security-scan .
+
+    - name: Run Trivy vulnerability scanner
+      uses: aquasecurity/trivy-action@master
+      with:
+        image-ref: 'python-template:security-scan'
+        format: 'sarif'
+        output: 'trivy-results.sarif'
+
+    - name: Upload Trivy scan results to GitHub Security tab
+      uses: github/codeql-action/upload-sarif@v3
+      if: always()
+      with:
+        sarif_file: 'trivy-results.sarif'
