@@ -10,7 +10,6 @@ from distributed_hetero_ml.parameter_server import RayParameterServer
 from distributed_hetero_ml.types import DataLoader, ModelFactory, TrainingConfig, TrainingResult
 from distributed_hetero_ml.workers import WorkerFactory
 
-# Set up logger for this module
 logger = logging.getLogger(__name__)
 
 
