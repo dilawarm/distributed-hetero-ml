@@ -98,7 +98,7 @@ class DistributedTrainer:
             for iteration in range(num_iterations):
                 logger.info(f"\n--- Iteration {iteration + 1}/{num_iterations} ---")
 
-                step_start = time.time()
+                step_start = time.perf_counter()
                 futures = [worker.train_step.remote(self.parameter_server) for worker in self.workers]
 
                 results = ray.get(futures)
@@ -131,7 +131,7 @@ class DistributedTrainer:
 
     def _calculate_iteration_metrics(self, results: list[TrainingResult], ps_metrics: dict[str, float], step_start: float) -> dict[str, Any]:
         """Calculate metrics for current iteration."""
-        total_step_time = time.time() - step_start
+        total_step_time = time.perf_counter() - step_start
 
         total_loss = sum(r.loss for r in results)
         avg_loss = total_loss / len(results)
