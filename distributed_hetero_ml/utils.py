@@ -1,3 +1,6 @@
+import logging
+import sys
+
 import torch
 from torch import nn, optim
 
@@ -73,3 +76,46 @@ class SyntheticDataLoader:
     def get_dataset_size(self) -> int:
         """Return the total dataset size."""
         return self.dataset_size
+
+
+def setup_logging(level: str = "INFO", log_file: str | None = None) -> None:
+    """
+    Set up logging configuration for distributed training.
+
+    Args:
+        level: Logging level (DEBUG, INFO, WARNING, ERROR, CRITICAL)
+        log_file: Optional path to log file. If None, logs to stdout only.
+
+    """
+    formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
+
+    root_logger = logging.getLogger()
+    root_logger.setLevel(getattr(logging, level.upper()))
+
+    root_logger.handlers.clear()
+
+    console_handler = logging.StreamHandler(sys.stdout)
+    console_handler.setFormatter(formatter)
+    root_logger.addHandler(console_handler)
+
+    if log_file:
+        file_handler = logging.FileHandler(log_file)
+        file_handler.setFormatter(formatter)
+        root_logger.addHandler(file_handler)
+
+    distributed_logger = logging.getLogger("distributed_hetero_ml")
+    distributed_logger.setLevel(getattr(logging, level.upper()))
+
+
+def get_logger(name: str) -> logging.Logger:
+    """
+    Get a logger with the specified name.
+
+    Args:
+        name: Logger name
+
+    Returns:
+        Logger instance
+
+    """
+    return logging.getLogger(name)

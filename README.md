@@ -1,6 +1,6 @@
 # Distributed Hetero ML
 
-Train your machine learning models across multiple machines with different hardware. Works with GPUs, CPUs, and Apple Silicon all at once.
+Train your machine learning models across multiple machines with heterogeneous hardware. Works with GPUs, CPUs, and Apple Silicon all at once.
 
 ## What this does
 
