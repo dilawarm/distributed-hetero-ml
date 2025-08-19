@@ -152,7 +152,7 @@ config = TrainingConfig(
 
 ## Requirements
 
-- Python 3.13+
+- Python 3.13.7+
 - PyTorch 2.7+
 - Ray 2.47+
 - NumPy 2.3+
