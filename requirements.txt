@@ -80,7 +80,7 @@ protobuf==6.31.1
     # via ray
 pyyaml==6.0.2
     # via ray
-ray==2.47.1
+ray==2.50.1
     # via distributed-hetero-ml
 referencing==0.36.2
     # via
